@@ -115,7 +115,7 @@ const WHATSAPP_URL = 'https://wa.me/9911139009?text=Hi%20VarahaCraft%2C%20I%20wa
 const CONTACT_EMAIL = 'varahacraft@zohomail.in';
 const EMAIL_URL = `mailto:${CONTACT_EMAIL}`;
 const INSTAGRAM_URL = 'https://instagram.com/varahacraft';
-const FORMSPREE_URL = 'https://formspree.io/f/xdabqrol';
+const FORMSPREE_URL = 'https://formspree.io/f/xzdwprwb';
 const logoUrl = '/images/logo.png';
 
 function SectionLabel({ children }) {
