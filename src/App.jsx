@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   ArrowRight,
   BadgeCheck,
@@ -171,58 +171,136 @@ function FormField({ id, label, type = 'text', placeholder, required = true }) {
 }
 
 function ContactForm() {
+  const [status, setStatus] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus('loading');
+    
+    const form = e.target;
+    const data = new FormData(form);
+    
+    try {
+      const response = await fetch(FORMSPREE_URL, {
+        method: 'POST',
+        body: data,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        setStatus('success');
+        form.reset();
+      } else {
+        const errorData = await response.json();
+        if ('errors' in errorData) {
+          setStatus(errorData.errors.map(error => error.message).join(', '));
+        } else {
+          setStatus('error');
+        }
+      }
+    } catch (error) {
+      setStatus('error');
+    }
+  };
+
   return (
-    <motion.form
-      action={FORMSPREE_URL}
-      method="POST"
-      variants={fadeUp}
-      className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.055] p-5 shadow-panel backdrop-blur-2xl sm:p-7 lg:p-8"
-    >
-      <div className="absolute -right-24 -top-28 h-64 w-64 rounded-full bg-ember/20 blur-[70px]" />
-      <div className="relative">
-        <div className="mb-8 flex items-start justify-between gap-5">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-copper">Project Inquiry</p>
-            <h3 className="mt-3 text-2xl font-black text-white">Tell us what you want to build.</h3>
+    <>
+      <AnimatePresence>
+        {status === 'success' && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center px-5">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setStatus('')}
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-md overflow-hidden rounded-[2rem] border border-white/10 bg-[#080808] p-8 shadow-[0_0_80px_rgba(255,106,0,0.15)]"
+            >
+              <div className="absolute -right-20 -top-20 h-48 w-48 rounded-full bg-ember/20 blur-[50px]" />
+              <div className="relative flex flex-col items-center text-center">
+                <div className="mb-6 grid h-16 w-16 place-items-center rounded-full border border-ember/30 bg-ember/10 text-copper">
+                  <BadgeCheck className="h-8 w-8" />
+                </div>
+                <h3 className="mb-3 text-2xl font-black text-white">Request Received</h3>
+                <p className="mb-8 text-white/60">
+                  Your project inquiry has been submitted successfully. We’ll contact you shortly.
+                </p>
+                <button
+                  onClick={() => setStatus('')}
+                  className="group inline-flex min-h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-white px-7 text-sm font-bold text-black shadow-[0_0_35px_rgba(255,106,0,0.3)] transition duration-300 hover:bg-copper focus:outline-none focus:ring-2 focus:ring-ember/70 focus:ring-offset-2 focus:ring-offset-graphite"
+                >
+                  Done
+                </button>
+              </div>
+            </motion.div>
           </div>
-          <span className="hidden rounded-full border border-ember/30 bg-ember/10 px-3 py-1.5 text-xs font-semibold text-copper sm:inline-flex">
-            Formspree
-          </span>
+        )}
+      </AnimatePresence>
+
+      <motion.form
+        onSubmit={handleSubmit}
+        variants={fadeUp}
+        className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.055] p-5 shadow-panel backdrop-blur-2xl sm:p-7 lg:p-8"
+      >
+        <div className="absolute -right-24 -top-28 h-64 w-64 rounded-full bg-ember/20 blur-[70px]" />
+        <div className="relative">
+          <div className="mb-8 flex items-start justify-between gap-5">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-copper">Project Inquiry</p>
+              <h3 className="mt-3 text-2xl font-black text-white">Tell us what you want to build.</h3>
+            </div>
+            <span className="hidden rounded-full border border-ember/30 bg-ember/10 px-3 py-1.5 text-xs font-semibold text-copper sm:inline-flex">
+              Formspree
+            </span>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <FormField id="name" label="Name" placeholder="Your name" />
+            <FormField id="business_name" label="Business Name" placeholder="Company or brand" />
+            <FormField id="phone_number" label="Phone Number" type="tel" placeholder="+91 00000 00000" />
+            <FormField id="email" label="Email" type="email" placeholder="you@brand.com" />
+          </div>
+          <label htmlFor="project_requirement" className="mt-5 block">
+            <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-white/50">Project Requirement</span>
+            <textarea
+              id="project_requirement"
+              name="project_requirement"
+              required
+              rows="5"
+              placeholder="3D ad, branding, website, motion graphics, launch deadline..."
+              className="contact-field resize-none"
+            />
+          </label>
+          <input type="hidden" name="_subject" value="New VarahaCraft Project Inquiry" />
+          <input type="hidden" name="_to" value={CONTACT_EMAIL} />
+          <div className="mt-8 flex flex-col gap-5 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <a href={EMAIL_URL} className="inline-flex min-w-0 items-center gap-2 text-sm font-semibold text-white/62 transition hover:text-copper">
+              <Mail className="h-4 w-4 shrink-0" />
+              <span className="truncate">{CONTACT_EMAIL}</span>
+            </a>
+            <div className="flex flex-col items-end gap-3 w-full sm:w-auto">
+              <button
+                type="submit"
+                disabled={status === 'loading'}
+                className="group inline-flex min-h-12 w-full min-w-[13.5rem] items-center justify-center gap-2 whitespace-nowrap rounded-full bg-white px-7 text-sm font-bold text-black shadow-[0_0_35px_rgba(255,106,0,0.3)] transition duration-300 hover:bg-copper focus:outline-none focus:ring-2 focus:ring-ember/70 focus:ring-offset-2 focus:ring-offset-graphite disabled:opacity-70 disabled:hover:bg-white sm:w-auto"
+              >
+                {status === 'loading' ? 'Sending...' : 'Submit Project Inquiry'}
+                {status !== 'loading' && <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />}
+              </button>
+              {status !== '' && status !== 'loading' && status !== 'success' && (
+                <span className="text-xs font-semibold text-red-400">{status === 'error' ? 'Failed to send inquiry. Please try again.' : status}</span>
+              )}
+            </div>
+          </div>
         </div>
-        <div className="grid gap-5 sm:grid-cols-2">
-          <FormField id="name" label="Name" placeholder="Your name" />
-          <FormField id="business_name" label="Business Name" placeholder="Company or brand" />
-          <FormField id="phone_number" label="Phone Number" type="tel" placeholder="+91 00000 00000" />
-          <FormField id="email" label="Email" type="email" placeholder="you@brand.com" />
-        </div>
-        <label htmlFor="project_requirement" className="mt-5 block">
-          <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.18em] text-white/50">Project Requirement</span>
-          <textarea
-            id="project_requirement"
-            name="project_requirement"
-            required
-            rows="5"
-            placeholder="3D ad, branding, website, motion graphics, launch deadline..."
-            className="contact-field resize-none"
-          />
-        </label>
-        <input type="hidden" name="_subject" value="New VarahaCraft Project Inquiry" />
-        <input type="hidden" name="contact_email" value={CONTACT_EMAIL} />
-        <div className="mt-8 flex flex-col gap-5 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <a href={EMAIL_URL} className="inline-flex min-w-0 items-center gap-2 text-sm font-semibold text-white/62 transition hover:text-copper">
-            <Mail className="h-4 w-4 shrink-0" />
-            <span className="truncate">{CONTACT_EMAIL}</span>
-          </a>
-          <button
-            type="submit"
-            className="group inline-flex min-h-12 w-full min-w-[13.5rem] items-center justify-center gap-2 whitespace-nowrap rounded-full bg-white px-7 text-sm font-bold text-black shadow-[0_0_35px_rgba(255,106,0,0.3)] transition duration-300 hover:bg-copper focus:outline-none focus:ring-2 focus:ring-ember/70 focus:ring-offset-2 focus:ring-offset-graphite sm:w-auto"
-          >
-            Submit Project Inquiry
-            <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-          </button>
-        </div>
-      </div>
-    </motion.form>
+      </motion.form>
+    </>
   );
 }
 
