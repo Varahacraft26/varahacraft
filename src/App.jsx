@@ -331,8 +331,8 @@ function Header() {
       className="fixed left-0 right-0 top-0 z-50 px-4 pt-4"
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between rounded-full border border-white/10 bg-black/40 px-4 py-3 shadow-panel backdrop-blur-2xl sm:px-6">
-        <a href="#hero" className="flex items-center">
-          <img src={logoUrl} alt="VarahaCraft" className="h-10 w-auto max-w-[170px] object-contain" />
+        <a href="#hero" className="flex items-center" aria-label="VarahaCraft Home">
+          <img src={logoUrl} alt="VarahaCraft Studio Logo" className="h-10 w-auto max-w-[170px] object-contain" />
         </a>
         <div className="hidden items-center gap-7 text-sm text-white/66 md:flex">
           {navItems.map((item) => (
@@ -371,6 +371,7 @@ function HeroPortraitVideo() {
             muted 
             loop 
             playsInline 
+            preload="auto"
             className="h-full w-full object-cover scale-[1.02]"
           />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(255,106,0,0.15),transparent_60%)] pointer-events-none" />
@@ -536,6 +537,7 @@ function FeaturedProjects() {
                   muted 
                   loop 
                   playsInline 
+                  preload="none"
                   className="h-full w-full object-cover transition-transform duration-1000 group-hover/project:scale-[1.02]"
                   onMouseEnter={(e) => e.target.play()}
                   onMouseLeave={(e) => {
@@ -552,7 +554,7 @@ function FeaturedProjects() {
                     <div className="absolute inset-0 bg-ember/30 opacity-0 transition-opacity duration-500 group-hover/img:opacity-100 z-10 pointer-events-none mix-blend-overlay" />
                     <img 
                       src={img} 
-                      alt={`${project.title} render ${i + 1}`} 
+                      alt={`${project.title} - ${project.type} project showcase image ${i + 1}`} 
                       loading="lazy"
                       className="h-full w-full object-cover transition-transform duration-700 group-hover/img:scale-110" 
                     />
@@ -672,7 +674,7 @@ function Footer() {
     <footer className="border-t border-white/10 px-5 py-10">
       <div className="mx-auto flex max-w-7xl flex-col gap-7 md:flex-row md:items-center md:justify-between">
         <div>
-          <img src={logoUrl} alt="VarahaCraft" className="h-14 w-auto max-w-[190px] object-contain" />
+          <img src={logoUrl} alt="VarahaCraft Studio Logo" className="h-14 w-auto max-w-[190px] object-contain" loading="lazy" />
           <p className="mt-2 text-sm text-white/50">Cinematic digital studio for premium modern brands.</p>
         </div>
         <div className="footer-social-row flex w-full flex-nowrap items-center gap-3 overflow-x-auto pb-1 sm:gap-4 md:w-auto md:justify-end md:overflow-visible md:pb-0">
