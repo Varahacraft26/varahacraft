@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import logoUrl from '../logo.png';
 import {
   ArrowRight,
   BadgeCheck,
@@ -117,6 +116,7 @@ const CONTACT_EMAIL = 'varahacraft@zohomail.in';
 const EMAIL_URL = `mailto:${CONTACT_EMAIL}`;
 const INSTAGRAM_URL = 'https://instagram.com/varahacraft';
 const FORMSPREE_URL = 'https://formspree.io/f/xdabqrol';
+const logoUrl = '/images/logo.png';
 
 function SectionLabel({ children }) {
   return (
@@ -272,37 +272,42 @@ function Header() {
   );
 }
 
-function HeroVisual() {
+function HeroPortraitVideo() {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.92, rotateX: 12 }}
       animate={{ opacity: 1, scale: 1, rotateX: 0 }}
       transition={{ duration: 1.1, ease: 'easeOut' }}
-      className="relative mx-auto aspect-square w-full max-w-[540px] perspective-visual"
+      className="relative mx-auto mt-12 lg:mt-0 aspect-[9/16] w-full max-w-[360px] perspective-visual"
     >
       <motion.div
         animate={{ rotate: 360 }}
-        transition={{ duration: 26, repeat: Infinity, ease: 'linear' }}
-        className="absolute inset-[11%] rounded-[2rem] border border-ember/30 bg-[linear-gradient(135deg,rgba(255,106,0,0.16),rgba(255,255,255,0.04),rgba(0,0,0,0.2))] shadow-[0_0_90px_rgba(255,106,0,0.2)]"
+        transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+        className="absolute -inset-6 rounded-[3.5rem] border border-ember/20 bg-[linear-gradient(135deg,rgba(255,106,0,0.15),rgba(255,255,255,0.03),rgba(0,0,0,0))] shadow-[0_0_100px_rgba(255,106,0,0.25)] blur-md"
       />
       <motion.div
-        animate={{ y: [0, -18, 0], rotate: [-3, 3, -3] }}
+        animate={{ y: [0, -16, 0], rotate: [-2, 2, -2] }}
         transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute inset-[17%] overflow-hidden rounded-[2.2rem] border border-white/12 bg-black/55 shadow-panel backdrop-blur-xl"
+        className="absolute inset-0 overflow-hidden rounded-[2.5rem] border border-white/15 bg-white/[0.04] shadow-panel backdrop-blur-2xl p-2.5"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_60%_35%,rgba(255,106,0,0.45),transparent_31%),linear-gradient(145deg,rgba(255,255,255,0.12),transparent_42%)]" />
-        <div className="absolute left-[13%] top-[13%] h-[42%] w-[42%] rounded-3xl border border-white/15 bg-white/[0.08] shadow-glow" />
-        <div className="absolute bottom-[14%] right-[12%] h-[46%] w-[48%] rounded-full border border-ember/50 bg-ember/20 blur-[1px]" />
-        <div className="absolute bottom-[18%] left-[14%] right-[14%] h-16 rounded-2xl border border-white/10 bg-black/45 backdrop-blur-md" />
-        <div className="absolute bottom-[24%] left-[20%] h-2 w-[42%] rounded-full bg-white/75" />
-        <div className="absolute bottom-[31%] left-[20%] h-2 w-[62%] rounded-full bg-ember/80" />
+        <div className="relative h-full w-full overflow-hidden rounded-[2rem] border border-white/10 bg-black shadow-inner">
+          <video 
+            src="/videos/jcm-video.mp4" 
+            autoPlay 
+            muted 
+            loop 
+            playsInline 
+            className="h-full w-full object-cover scale-[1.02]"
+          />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(255,106,0,0.15),transparent_60%)] pointer-events-none" />
+        </div>
       </motion.div>
-      {['top-8 left-8', 'right-7 top-24', 'bottom-14 left-14', 'bottom-6 right-16'].map((position, index) => (
+      {['-top-6 -left-6', '-right-8 top-1/3', 'bottom-1/4 -left-10', '-bottom-4 -right-4'].map((position, index) => (
         <motion.span
           key={position}
-          animate={{ y: [0, index % 2 ? 16 : -16, 0], opacity: [0.55, 1, 0.55] }}
+          animate={{ y: [0, index % 2 ? 14 : -14, 0], opacity: [0.4, 0.8, 0.4], rotate: [0, 10, 0] }}
           transition={{ duration: 4 + index, repeat: Infinity, ease: 'easeInOut' }}
-          className={`absolute ${position} h-16 w-16 rounded-2xl border border-white/10 bg-white/[0.06] backdrop-blur-md`}
+          className={`absolute ${position} h-14 w-14 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-md z-[-1]`}
         />
       ))}
     </motion.div>
@@ -311,7 +316,7 @@ function HeroVisual() {
 
 function Hero() {
   return (
-    <section id="hero" className="relative min-h-screen overflow-hidden px-5 pt-32 sm:pt-36">
+    <section id="hero" className="relative min-h-screen overflow-hidden px-5 pt-32 pb-20 sm:pt-36 flex items-center">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -321,7 +326,8 @@ function Hero() {
         <div className="absolute left-1/2 top-24 h-[560px] w-[560px] -translate-x-1/2 rounded-full bg-ember/20 blur-[120px]" />
         <div className="grid-lines absolute inset-0 opacity-35" />
       </motion.div>
-      <div className="relative z-10 mx-auto grid min-h-[calc(100vh-8rem)] max-w-7xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
+
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
         <motion.div variants={stagger} initial="hidden" animate="visible" className="max-w-4xl">
           <SectionLabel>Creative Digital Studio</SectionLabel>
           <motion.h1
@@ -340,7 +346,8 @@ function Hero() {
             </Button>
           </motion.div>
         </motion.div>
-        <HeroVisual />
+        
+        <HeroPortraitVideo />
       </div>
       <motion.a
         href="#trust"
