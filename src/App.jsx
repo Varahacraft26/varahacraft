@@ -279,11 +279,7 @@ function ContactForm() {
           </label>
           <input type="hidden" name="_subject" value="New VarahaCraft Project Inquiry" />
           <input type="hidden" name="_to" value={CONTACT_EMAIL} />
-          <div className="mt-8 flex flex-col gap-5 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
-            <a href={EMAIL_URL} className="inline-flex min-w-0 items-center gap-2 text-sm font-semibold text-white/62 transition hover:text-copper">
-              <Mail className="h-4 w-4 shrink-0" />
-              <span className="truncate">{CONTACT_EMAIL}</span>
-            </a>
+          <div className="mt-8 flex flex-col gap-5 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-end">
             <div className="flex flex-col items-end gap-3 w-full sm:w-auto">
               <button
                 type="submit"
@@ -655,11 +651,8 @@ function CTA() {
               Bring us your product, service, or launch idea. We will shape it into a cinematic brand experience built for attention and trust.
             </p>
             <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
-              <Button href={EMAIL_URL} icon={Rocket} className="sm:min-w-[13.25rem]">
+              <Button href="#contact" icon={Rocket} className="sm:min-w-[13.25rem]">
                 Start Your Project
-              </Button>
-              <Button href={EMAIL_URL} variant="secondary" icon={Mail} className="max-w-full overflow-hidden text-xs sm:min-w-[16rem]">
-                {CONTACT_EMAIL}
               </Button>
               <Button
                 href={WHATSAPP_URL}
