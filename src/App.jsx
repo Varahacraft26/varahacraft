@@ -279,8 +279,8 @@ function ContactForm() {
           </label>
           <input type="hidden" name="_subject" value="New VarahaCraft Project Inquiry" />
           <input type="hidden" name="_to" value={CONTACT_EMAIL} />
-          <div className="mt-8 flex flex-col gap-5 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-end">
-            <div className="flex flex-col items-end gap-3 w-full sm:w-auto">
+          <div className="mt-8 flex flex-col border-t border-white/10 pt-6">
+            <div className="flex flex-col items-center gap-3 w-full sm:items-end">
               <button
                 type="submit"
                 disabled={status === 'loading'}
@@ -414,10 +414,7 @@ function Hero() {
             We create high-converting 3D advertisements, websites, branding, and creative visuals for modern businesses.
           </motion.p>
           <motion.div variants={fadeUp} className="mt-9 flex flex-col gap-4 sm:flex-row">
-            <Button href="#portfolio">View Portfolio</Button>
-            <Button href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" variant="secondary" icon={MessageCircle}>
-              WhatsApp Us
-            </Button>
+            <Button href="#portfolio" className="sm:min-w-[14rem]">View Portfolio</Button>
           </motion.div>
         </motion.div>
         
@@ -643,31 +640,21 @@ function CTA() {
       <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2.4rem] border border-white/10 bg-black p-8 shadow-panel sm:p-12 lg:p-16">
         <div className="absolute -right-32 -top-40 h-[520px] w-[520px] rounded-full bg-ember/25 blur-[110px]" />
         <div className="absolute -bottom-36 left-1/4 h-80 w-80 rounded-full bg-white/10 blur-[100px]" />
-        <div className="relative grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <div className="max-w-4xl">
+        <div className="relative grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20 lg:items-center">
+          <div className="flex max-w-4xl flex-col justify-center">
             <SectionLabel>Start The Upgrade</SectionLabel>
             <h2 className="text-4xl font-black leading-tight text-white sm:text-6xl">Ready To Make Your Brand Look Premium?</h2>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-white/62">
               Bring us your product, service, or launch idea. We will shape it into a cinematic brand experience built for attention and trust.
             </p>
-            <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
-              <Button href="#contact" icon={Rocket} className="sm:min-w-[13.25rem]">
+            <div className="mt-10 flex w-full items-center justify-center lg:justify-start">
+              <Button href="#contact" icon={Rocket} className="w-full sm:w-auto sm:min-w-[16rem]">
                 Start Your Project
               </Button>
-              <Button
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="secondary"
-                icon={MessageCircle}
-                className="sm:min-w-[12.5rem]"
-              >
-                WhatsApp Us
-              </Button>
             </div>
-            <div className="mt-10 grid gap-3 text-sm text-white/58 sm:grid-cols-3">
+            <div className="mt-12 grid gap-3 text-sm text-white/58 sm:grid-cols-3">
               {['24h response', 'Premium proposal', 'Launch-ready plan'].map((item) => (
-                <div key={item} className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 backdrop-blur-xl">
+                <div key={item} className="flex items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-center backdrop-blur-xl">
                   {item}
                 </div>
               ))}
@@ -692,10 +679,6 @@ function Footer() {
           <a href={INSTAGRAM_URL} className="footer-link">
             <Instagram className="h-4 w-4" />
             Instagram
-          </a>
-          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="footer-link">
-            <MessageCircle className="h-4 w-4" />
-            WhatsApp
           </a>
           <a href={EMAIL_URL} className="footer-link">
             <Mail className="h-4 w-4" />
